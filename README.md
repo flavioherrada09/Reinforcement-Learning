@@ -10,13 +10,16 @@ Una de las técnicas más prominentes dentro del RL es el Deep Q-Learning (DQN),
 
 ## Aplicando el DQL para blackjack
 
-'blackjack.py' entrena un agente de Deep Q-Learning (DQL) para jugar al blackjack usando Gymnasium y PyTorch. En primer lugar, se define una red neuronal (QNetwork) que actúa como aproximador de los valores Q para cada acción (hit o stand). Luego, dentro de la función train(), se crea el entorno de Blackjack y se configura la política epsilon-greedy (con parámetros epsilon, epsilon_min y epsilon_decay para controlar la exploración/explotación). Durante cada episodio, el agente observa el estado, elige una acción con la política epsilon-greedy, y guarda la experiencia (estado, acción, recompensa, siguiente estado) en una memoria de replay.
+'blackjack.py' entrena un agente de Deep Q-Learning (DQN) en el entorno de Blackjack de Gymnasium. El agente utiliza una red neuronal densa para predecir los valores Q (una salida por cada posible acción: “hit” o “stand”) y toma decisiones según una política epsilon-greedy, la cual va reduciendo el factor 
+𝜖
+ϵ a lo largo del entrenamiento para pasar gradualmente de la exploración a la explotación.
 
-Una vez que la memoria acumula suficiente información, se toman mini-lotes (batch) aleatorios para actualizar los pesos de la red con la ecuación de Bellman, usando la función de pérdida MSE. De este modo, el modelo aprende a estimar los valores Q de cada acción y, con el tiempo, mejora su desempeño en el juego de Blackjack. Tras completarse los episodios de entrenamiento, se reduce progresivamente la tasa de exploración (epsilon) y se guarda el modelo entrenado en un archivo (blackjack_dql.pth).
+El código gestiona un replay buffer (almacenamiento de transiciones) de donde se extraen muestras aleatorias para entrenar la red, rompiendo la correlación temporal de los datos. Para mejorar la estabilidad del aprendizaje, se emplea una red objetivo que se sincroniza periódicamente con la red principal. Al final, se guarda la red entrenada en un archivo y se ofrece una función para jugar un episodio usando la política aprendida.
 
 
 ## Resultados
 
-El agente realiza su entrenamiento a lo largo de 5000 episodios. Cada 100 episodios, se registra en los logs la recompensa acumulada junto con el valor de epsilon.
+El agente realiza su entrenamiento a lo largo de 2500 episodios. Cada 100 episodios, se registra en los logs la recompensa acumulada junto con el valor de epsilon.
 
-![image](https://github.com/user-attachments/assets/9cef7df1-c798-4260-9c72-96c4b61c4b59)
+![image](https://github.com/user-attachments/assets/a2240a6a-547e-4bfb-b9fc-b80e64bf4b87)
+
